@@ -1,11 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
 
 import { myContext } from '../../context/context';
 import './Ingredients.scss';
+import Loader from '../../utils/Loader/Loader';
 
 const IngredientSearchForm = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const { fetchIngredients, ingredients } = useContext(myContext);
+  const { fetchIngredients, ingredients, loading, error } = useContext(myContext);
+  const [filteredIngredients, setFilteredIngredients] = useState(ingredients);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ingredientsPerPage = 20;
 
   const filterIngredients = (searchTerm) => {
     if (!searchTerm) {
@@ -15,10 +20,6 @@ const IngredientSearchForm = () => {
       ingredient.strIngredient.toLowerCase().includes(searchTerm.toLowerCase())
     );
   };
-
-  const [filteredIngredients, setFilteredIngredients] = useState(ingredients);
-  const ingredientsPerPage = 10;
-  const [currentPage, setCurrentPage] = useState(1);
 
   const handleSearch = () => {
     const filtered = filterIngredients(searchTerm);
@@ -37,6 +38,18 @@ const IngredientSearchForm = () => {
     fetchIngredients();
   }, [fetchIngredients]);
 
+  if (loading) {
+    return (
+      <div className="loader-container">
+        <Loader />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <p>Error loading ingredients: {error}</p>;
+  }
+
   return (
     <div className="ingredient-search">
       <h2>Ingredient Search</h2>
@@ -49,36 +62,46 @@ const IngredientSearchForm = () => {
         />
         <button onClick={handleSearch}>Search</button>
       </div>
-      {!ingredients.length ? (
-        <p>Loading ingredients...</p>
-      ) : (
-        <div className="ingredient-search-list">
-          <ul>
-            {currentIngredients.map((ingredient) => (
-              <li key={ingredient.idIngredient}>
-                {ingredient.strIngredient}
-              </li>
-            ))}
-          </ul>
-          {filteredIngredients.length > ingredientsPerPage && (
-            <div className="pagination">
-              {Array.from({
-                length: Math.ceil(
-                  filteredIngredients.length / ingredientsPerPage
-                ),
-              }).map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentPage(index + 1)}
-                  className={currentPage === index + 1 ? 'active' : ''}
-                >
-                  {index + 1}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
+      <div className="ingredient-search-list">
+        <ul>
+          {currentIngredients.map((ingredient) => (
+            // <li key={ingredient.idIngredient}>
+            //   {ingredient.strIngredient}
+            // </li>
+            <Link
+              to={`/recipes/${ingredient.strIngredient}`}
+              key={ingredient.idIngredient}
+              className="custom-link"
+            >
+              <li>{ingredient.strIngredient}</li>
+            </Link>
+          ))}
+        </ul>
+      </div>
+      {filteredIngredients.length > ingredientsPerPage && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(filteredIngredients.length / ingredientsPerPage)}
+          onPageChange={(newPage) => setCurrentPage(newPage)}
+        />
       )}
+    </div>
+  );
+};
+
+// Separate Pagination component
+const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+  return (
+    <div className="pagination">
+      {Array.from({ length: totalPages }).map((_, index) => (
+        <button
+          key={index}
+          onClick={() => onPageChange(index + 1)}
+          className={currentPage === index + 1 ? 'active' : ''}
+        >
+          {index + 1}
+        </button>
+      ))}
     </div>
   );
 };

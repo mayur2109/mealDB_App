@@ -1,0 +1,29 @@
+.not-found {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 24px;
+    height: auto;
+    min-height: 73.4vh;
+  }
+
+  .not-found h1 {
+    font-size: 3em;
+    color: #ff0000; /* Adjust the color as needed */
+  }
+
+  .not-found p {
+    margin-top: 20px;
+    color: #555;
+  }
+
+  .not-found a {
+    display: block;
+    margin-top: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #007acc; /* Adjust the link color as needed */
+  }
+
+  .not-found a:hover {
+    text-decoration: underline;
+  }
