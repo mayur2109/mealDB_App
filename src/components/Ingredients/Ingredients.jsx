@@ -65,9 +65,6 @@ const IngredientSearchForm = () => {
       <div className="ingredient-search-list">
         <ul>
           {currentIngredients.map((ingredient) => (
-            // <li key={ingredient.idIngredient}>
-            //   {ingredient.strIngredient}
-            // </li>
             <Link
               to={`/recipes/${ingredient.strIngredient}`}
               key={ingredient.idIngredient}
@@ -89,7 +86,6 @@ const IngredientSearchForm = () => {
   );
 };
 
-// Separate Pagination component
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   return (
     <div className="pagination">

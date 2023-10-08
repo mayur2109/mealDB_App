@@ -1,0 +1,36 @@
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    background-color: #000;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    .categories-item {
+      width: calc(33.33% - 20px);
+      background-color: #f3b547;
+      border: none;
+      border-radius: 10px;
+      transition: transform 0.2s;
+
+      &:hover {
+        transform: translateY(-5px);
+        cursor: pointer;
+      }
+
+      .categories-item-image {
+        img {
+          max-width: 100%;
+          height: auto;
+        }
+      }
+
+      .categories-item-name {
+        padding: 10px;
+        text-align: center;
+        font-weight: bold;
+        color: #fff;
+      }
+    }
+  }

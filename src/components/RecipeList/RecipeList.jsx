@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link,useParams } from 'react-router-dom';
 import { myContext } from '../../context/context';
 
 import './RecipeList.scss';
@@ -21,7 +21,7 @@ const RecipeList = () => {
       }
     }
   }, [ingredient, fetchRecipesByIngredient]);
-
+  console.log(recipes);
   return (
     <div className="recipe-list">
       <h2 className="recipe-list-title">Recipes with {ingredient}</h2>
@@ -32,14 +32,28 @@ const RecipeList = () => {
       ) : (
         <ul className="recipe-list-ul">
           {recipes.map((recipe) => (
-            <li key={recipe.idMeal} className="recipe-list-item">
-              <img
-                src={recipe.strMealThumb}
-                alt={recipe.strMeal}
-                className="recipe-list-image"
-              />
-              <h4 className="recipe-list-name">{recipe.strMeal}</h4>
-            </li>
+            // <li key={recipe.idMeal} className="recipe-list-item">
+            //   <img
+            //     src={recipe.strMealThumb}
+            //     alt={recipe.strMeal}
+            //     className="recipe-list-image"
+            //   />
+            //   <h4 className="recipe-list-name">{recipe.strMeal}</h4>
+            // </li>
+            <Link
+              to={`/recipe/${recipe.idMeal}`}
+              key={recipe.idMeal}
+              className="custom-link"
+            >
+              <li>
+                <img
+                  src={recipe.strMealThumb}
+                  alt={recipe.strMeal}
+                  className="recipe-list-image"
+                />
+                <h4 className="recipe-list-name">{recipe.strMeal}</h4>
+              </li>
+            </Link>
           ))}
         </ul>
       )}

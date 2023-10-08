@@ -7,6 +7,7 @@ export const AppContext = ({ children }) => {
   const [meals, setMeals] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [recipes, setRecipes] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -61,9 +62,17 @@ export const AppContext = ({ children }) => {
     }
   }, []);
 
+  const fetchCategories = useCallback(async () => {
+    axios.get("https://www.themealdb.com/api/json/v1/1/categories.php").then((res)=>{
+      console.log(res.data.categories)
+      setCategories(res.data.categories)
+    })
+  },[])
+
+
   useEffect(() => {
     fetchIngredients();
-  }, [fetchIngredients]);
+  },[fetchIngredients]);
 
   return (
     <myContext.Provider
@@ -74,6 +83,8 @@ export const AppContext = ({ children }) => {
         ingredients,
         fetchRecipesByIngredient,
         recipes,
+        fetchCategories,
+        categories,
         loading,
         error,
       }}
