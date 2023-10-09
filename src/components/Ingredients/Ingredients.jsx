@@ -2,8 +2,10 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import { myContext } from '../../context/context';
-import './Ingredients.scss';
 import Loader from '../../utils/Loader/Loader';
+import ErrorPage from '../../utils/Error/ErrorPage';
+
+import './Ingredients.scss';
 
 const IngredientSearchForm = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -47,7 +49,12 @@ const IngredientSearchForm = () => {
   }
 
   if (error) {
-    return <p>Error loading ingredients: {error}</p>;
+    return (
+      <ErrorPage
+        errorMessage={`Error loading ingredients: ${error}`}
+        onRetryClick={() => fetchIngredients()}
+      />
+    );
   }
 
   return (

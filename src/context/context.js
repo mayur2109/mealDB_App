@@ -63,12 +63,19 @@ export const AppContext = ({ children }) => {
   }, []);
 
   const fetchCategories = useCallback(async () => {
-    axios.get("https://www.themealdb.com/api/json/v1/1/categories.php").then((res)=>{
-      console.log(res.data.categories)
-      setCategories(res.data.categories)
-    })
-  },[])
+    setLoading(true);
+    setError(null);
 
+    try {
+      const response = await axios.get("https://www.themealdb.com/api/json/v1/1/categories.php");
+      const categoryData = response.data.categories;
+      setCategories(categoryData);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     fetchIngredients();

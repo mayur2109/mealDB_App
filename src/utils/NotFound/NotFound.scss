@@ -1,29 +1,33 @@
 .not-found {
-    text-align: center;
-    margin-top: 50px;
-    font-size: 24px;
-    height: auto;
-    min-height: 73.4vh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f3b547;
+  color: #333;
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
   }
 
-  .not-found h1 {
-    font-size: 3em;
-    color: #ff0000; /* Adjust the color as needed */
+  p {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
   }
 
-  .not-found p {
-    margin-top: 20px;
-    color: #555;
-  }
-
-  .not-found a {
-    display: block;
-    margin-top: 20px;
-    font-weight: bold;
+  a {
+    font-size: 1.2rem;
     text-decoration: none;
-    color: #007acc; /* Adjust the link color as needed */
-  }
+    color: #fff;
+    background-color: #333;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
 
-  .not-found a:hover {
-    text-decoration: underline;
+    &:hover {
+      background-color: #555;
+    }
   }
+}

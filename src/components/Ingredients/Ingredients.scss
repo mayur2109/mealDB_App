@@ -1,107 +1,131 @@
 .ingredient-search {
-    min-height: 100vh;
-    height: auto;
-    background: #000;
-    color: #fff;
-    width: 100%;
+  min-height: 100vh;
+  height: auto;
+  background: #000;
+  color: #fff;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h2 {
+    padding-top: 2rem;
+  }
+
+  &-search {
+    padding: 1rem;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    h2{
-      padding-top: 2rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    input {
+      margin: 20px 0;
+      padding: 5px;
+      outline: none;
+      border: solid #ccc;
+      width: 300px;
+      font-size: 1.2rem;
+      border-radius: 5px;
     }
 
-    &-search {
-      padding: 1rem;
+    button {
+      font-size: 1.2rem;
+      padding: 5px;
+      border: solid #ccc;
+      border-radius: 5px;
+      background: #f3b547;
+      color: #fff;
+      margin-left: 1rem;
+      outline: none;
+    }
+  }
+
+  &-list {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    ul {
       display: flex;
       align-items: center;
+      justify-content: space-around;
       flex-direction: row;
       flex-wrap: wrap;
-      justify-content: center;
-
-      input {
-        margin: 20px 0;
-        padding: 5px;
-        outline: none;
-        border: solid #ccc;
-        width: 300px;
-        font-size: 1.2rem;
-        border-radius: 5px;
-      }
-
-      button {
-        font-size: 1.2rem;
-        padding: 5px;
-        border: solid #ccc;
-        border-radius: 5px;
-        background: #f3b547;
-        color: #fff;
-        margin-left: 1rem;
-        outline: none;
-      }
+      list-style: none;
     }
 
-    &-list {
-      display: flex;
-      align-items: center;
-      justify-content: space-evenly;
-      flex-direction: row;
-      flex-wrap: wrap;
-      ul{
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        flex-direction: row;
-        flex-wrap: wrap;
-        list-style: none;
-      }
-      .custom-link {
-        text-decoration: none; /* Remove underlines */
-        color: #333;
-      }
-      
-      .custom-link:hover {
-        cursor: pointer;
-        color: #555;
-      }
-      li {
-        min-width: 16rem;
-        text-align: center;
-        margin: 2rem;
-        padding: 1.5rem;
-        border: solid #ccc;
-        background: #f3b547;
-        border-radius: 0.8rem;
-        transition: all 0.3s ease-in-out;
-        cursor: pointer;
-
-        &:hover {
-          transform: scale(1.025);
-        }
-      }
+    .custom-link {
+      text-decoration: none;
+      color: #333;
     }
 
-    .pagination {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: row;
-      flex-wrap: wrap;
-      padding: 1rem;
+    .custom-link:hover {
+      cursor: pointer;
+      color: #555;
+    }
 
-      button {
-        font-size: 1.2rem;
-        padding: 5px;
-        border: solid #ccc;
-        border-radius: 5px;
-        background: #f3b547;
-        color: #fff;
-        margin-left: 1rem;
-        outline: none;
-      }
+    li {
+      min-width: 16rem;
+      text-align: center;
+      margin: 2rem;
+      padding: 1.5rem;
+      border: solid #ccc;
+      background: #f3b547;
+      border-radius: 0.8rem;
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
 
-      .active {
-        background: #333;
+      &:hover {
+        transform: scale(1.025);
       }
     }
   }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 1rem;
+
+    button {
+      font-size: 1.2rem;
+      padding: 5px;
+      border: solid #ccc;
+      border-radius: 5px;
+      background: #f3b547;
+      color: #fff;
+      margin-left: 1rem;
+      outline: none;
+    }
+
+    .active {
+      background: #333;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .ingredient-search {
+    &-search {
+      padding: 1rem;
+      flex-direction: column;
+      align-items: stretch;
+
+      input {
+        margin: 10px 0;
+        width: 100%;
+      }
+
+      button {
+        margin-top: 10px;
+        width: 100%;
+      }
+    }
+  }
+}
