@@ -37,7 +37,6 @@ const RecipeDetail = () => {
     strCategory,
     strArea,
     strInstructions,
-    strYoutube,
     strSource,
     strTags,
   } = recipe;
@@ -100,7 +99,6 @@ const RecipeDetail = () => {
                 <iframe
                 width="400"
                 height="560"
-                // src="https://www.youtube-nocookie.com/embed/QBmre1vaLwI"
                 frameborder="0"
                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
