@@ -27,7 +27,10 @@ const RecipeDetail = () => {
   if (!recipe) {
     return <p>Loading recipe details...</p>;
   }
-  console.log(recipe);
+
+  const videoId = recipe.strYoutube.split('v=')[1];
+  const embeddedUrl = `https://www.youtube-nocookie.com/embed/${videoId}`;
+
   const {
     strMeal,
     strMealThumb,
@@ -67,7 +70,7 @@ const RecipeDetail = () => {
                         <p>Category: {strCategory}</p>
                         <p>Area: {strArea}</p>
                         <p>Tags: {strTags}</p>
-                        <p>Source: {strSource}</p>
+                        <p>Source: <a href={strSource} target="_blank" rel="noopener noreferrer">{strSource}</a></p>
                     </div>
                 </div>
             </div>
@@ -95,11 +98,14 @@ const RecipeDetail = () => {
             </div>
             <div className="recipe-detail-video">
                 <iframe
-                width="560"
-                height="400"
-                src={strYoutube}
+                width="400"
+                height="560"
+                // src="https://www.youtube-nocookie.com/embed/QBmre1vaLwI"
+                frameborder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                src={embeddedUrl}
                 title="YouTube video player"
-                allowFullScreen
                 ></iframe>
             </div>
         </div>
