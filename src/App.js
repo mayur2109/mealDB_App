@@ -4,7 +4,7 @@ import{BrowserRouter,Route,Routes} from 'react-router-dom'
 
 import{Navbar, Home, Categories, Footer,Ingredients,RecipeList,RecipeDetail} from './components'
 import NotFound from './utils/NotFound/NotFound';
-
+//MealD App
 import './App.scss';
 function App() {
   return (
