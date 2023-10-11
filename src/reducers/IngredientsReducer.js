@@ -14,9 +14,7 @@ const ingredientsReducer = (state = initialState, action) => {
                 ingredients: action.payload,
             }
         case FILTER_INGREDIENTS:
-            return{
-                
-            }
+            return
         case LOADING_INGREDIENTS:
             return {
                 ...state,
