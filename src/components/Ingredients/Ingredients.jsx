@@ -1,18 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector,useDispatch } from 'react-redux';
 
-import { myContext } from '../../context/context';
+import { fetchIngredients } from '../../actions';
 import Loader from '../../utils/Loader/Loader';
 import ErrorPage from '../../utils/Error/ErrorPage';
 
 import './Ingredients.scss';
 
 const IngredientSearchForm = () => {
+  const dispatch = useDispatch()
+
+  const{ingredients,loading,error} = useSelector(state=>state.ingredients)
+
   const [searchTerm, setSearchTerm] = useState('');
-  const { fetchIngredients, ingredients, loading, error } = useContext(myContext);
   const [filteredIngredients, setFilteredIngredients] = useState(ingredients);
-  const [currentPage, setCurrentPage] = useState(1);
-  const ingredientsPerPage = 20;
 
   const filterIngredients = (searchTerm) => {
     if (!searchTerm) {
@@ -29,16 +31,19 @@ const IngredientSearchForm = () => {
     setCurrentPage(1);
   };
 
+  useEffect(() => {
+    dispatch(fetchIngredients());
+  }, [dispatch]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const ingredientsPerPage = 20;
+
   const indexOfLastIngredient = currentPage * ingredientsPerPage;
   const indexOfFirstIngredient = indexOfLastIngredient - ingredientsPerPage;
   const currentIngredients = filteredIngredients.slice(
     indexOfFirstIngredient,
     indexOfLastIngredient
   );
-
-  useEffect(() => {
-    fetchIngredients();
-  }, [fetchIngredients]);
 
   if (loading) {
     return (

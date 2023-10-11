@@ -1,15 +1,20 @@
-import React, { useEffect, useContext } from 'react';
-import './Categories.scss';
-import { myContext } from '../../context/context';
+import React, { useEffect,/*useContext*/ } from 'react';
+import { useSelector,useDispatch } from 'react-redux';
+
+import { fetchCategories, } from '../../actions/index';
 import Loader from "../../utils/Loader/Loader"
 import ErrorPage from '../../utils/Error/ErrorPage';
 
+import './Categories.scss';
+
 const Categories = () => {
-  const { fetchCategories, categories, loading, error } = useContext(myContext);
+  const {categories,loading,error} = useSelector(state=>state.categories)
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
+    dispatch(fetchCategories());
+  }, [dispatch]);
 
   if (loading) {
     return (

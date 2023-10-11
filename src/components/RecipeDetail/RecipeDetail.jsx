@@ -1,34 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector,useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+
+import {fetchMealDetails} from '../../actions/index'
+import Loader from '../../utils/Loader/Loader';
+import ErrorPage from '../../utils/Error/ErrorPage';
 import './RecipeDetail.scss';
 
 const RecipeDetail = () => {
+  const dispatch = useDispatch();
+  const {mealData,loading,error} = useSelector(state => state.mealDetails);
   const { recipeId } = useParams();
-  const [recipe, setRecipe] = useState(null);
 
   useEffect(() => {
-    fetchRecipeDetails(recipeId);
-  }, [recipeId]);
+    dispatch(fetchMealDetails(recipeId));
+  }, [dispatch,recipeId]);
 
-  const fetchRecipeDetails = async (id) => {
-    try {
-      const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
-      const data = await response.json();
-      if (data.meals && data.meals.length > 0) {
-        setRecipe(data.meals[0]);
-      } else {
-        setRecipe(null);
-      }
-    } catch (error) {
-      console.error('Error fetching recipe details:', error);
-    }
-  };
 
-  if (!recipe) {
-    return <p>Loading recipe details...</p>;
+  if (loading) {
+    return (
+      <div className="loader-container">
+        <Loader />
+      </div>
+    );
   }
 
-  const videoId = recipe.strYoutube.split('v=')[1];
+  if (error) {
+    return (
+      <ErrorPage
+        errorMessage={`Error loading ingredients: ${error}`}
+        onRetryClick={() => fetchMealDetails()}
+      />
+    );
+  }
+
+  const videoId = mealData.strYoutube?.split('v=')[1];
   const embeddedUrl = `https://www.youtube-nocookie.com/embed/${videoId}`;
 
   const {
@@ -39,21 +45,21 @@ const RecipeDetail = () => {
     strInstructions,
     strSource,
     strTags,
-  } = recipe;
+  } = mealData;
 
   const ingredients = [];
   const measures = [];
 
   for (let i = 1; i <= 20; i++) {
-    const ingredient = recipe[`strIngredient${i}`];
-    const measure = recipe[`strMeasure${i}`];
+    const ingredient = mealData[`strIngredient${i}`];
+    const measure = mealData[`strMeasure${i}`];
 
     if (ingredient && ingredient.trim() !== '' && measure && measure.trim() !== '') {
       ingredients.push(ingredient);
       measures.push(measure);
     }
   }
-  const steps = strInstructions.split('. ');
+  const steps = strInstructions?.split('. ');
   return (
     <div className="recipe-detail">
         <div className="title">
@@ -88,7 +94,7 @@ const RecipeDetail = () => {
             <div className="recipe-detail-instructions">
                 <h3>Instructions:</h3>
                 <ul className="instructions-list">
-                    {steps.map((step, index) => (
+                    {steps?.map((step, index) => (
                     <li key={index}>
                         <p><strong>Step {index + 1}:</strong> {step}</p>
                     </li>
@@ -97,13 +103,13 @@ const RecipeDetail = () => {
             </div>
             <div className="recipe-detail-video">
                 <iframe
-                width="400"
-                height="560"
-                frameborder="0"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-                src={embeddedUrl}
-                title="YouTube video player"
+                  width="400"
+                  height="560"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                  src={embeddedUrl}
+                  title="YouTube video player"
                 ></iframe>
             </div>
         </div>

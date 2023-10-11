@@ -1,45 +1,35 @@
-import React, { useContext, useEffect } from 'react';
+import React, {  useEffect } from 'react';
 import { Link,useParams } from 'react-router-dom';
-import { myContext } from '../../context/context';
+import { useSelector,useDispatch } from 'react-redux';
+
+import {fetchRecipesByIngredient} from '../../actions/index';
+import Loader from "../../utils/Loader/Loader"
+import ErrorPage from "../../utils/Error/ErrorPage"
 
 import './RecipeList.scss';
 
 const RecipeList = () => {
   const { ingredient } = useParams();
-  const { fetchRecipesByIngredient, loading, error, recipes } = useContext(
-    myContext
-  );
+
+  const dispatch = useDispatch();
+  const {recipeData,loading,error,} = useSelector((state) => state.recipesByIngredients);
 
   useEffect(() => {
-    fetchRecipes();
+    dispatch(fetchRecipesByIngredient(ingredient))
+  }, [dispatch,ingredient]);
 
-    async function fetchRecipes() {
-      try {
-        await fetchRecipesByIngredient(ingredient);
-      } catch (error) {
-        console.error('Error fetching recipes:', error);
-      }
-    }
-  }, [ingredient, fetchRecipesByIngredient]);
-  console.log(recipes);
   return (
     <div className="recipe-list">
       <h2 className="recipe-list-title">Recipes with {ingredient}</h2>
       {loading ? (
-        <p className="recipe-list-loading">Loading recipes...</p>
+        <Loader/>
       ) : error ? (
-        <p className="recipe-list-error">Error loading recipes: {error}</p>
+        <ErrorPage
+        errorMessage={`Error loading Recipes for ${ingredient}: ${error}`}
+        onRetryClick={() => fetchRecipesByIngredient()}/>
       ) : (
         <ul className="recipe-list-ul">
-          {recipes.map((recipe) => (
-            // <li key={recipe.idMeal} className="recipe-list-item">
-            //   <img
-            //     src={recipe.strMealThumb}
-            //     alt={recipe.strMeal}
-            //     className="recipe-list-image"
-            //   />
-            //   <h4 className="recipe-list-name">{recipe.strMeal}</h4>
-            // </li>
+          {recipeData.map((recipe) => (
             <Link
               to={`/recipe/${recipe.idMeal}`}
               key={recipe.idMeal}

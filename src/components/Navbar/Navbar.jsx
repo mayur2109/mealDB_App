@@ -17,17 +17,17 @@ const Navbar = () => {
       </div>
       <ul className={`navbar-links ${menuOpen ? "open" : ""}`}>
         <li>
-          <NavLink to="/" activeClassName="active-link">
+          <NavLink to="/">
             Home
           </NavLink>
         </li>
         <li>
-          <NavLink to="/ingredients" activeClassName="active-link">
+          <NavLink to="/ingredients">
             Ingredients
           </NavLink>
         </li>
         <li>
-          <NavLink to="/categories" activeClassName="active-link">
+          <NavLink to="/categories">
             Categories
           </NavLink>
         </li>

@@ -1,21 +1,26 @@
-import React, { useState, useCallback, useContext, } from 'react';
-import { myContext } from '../../context/context';
+import React, { useState, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { fetchMeals } from '../../actions';
+import Loader from '../../utils/Loader/Loader';
+import ErrorPage from '../../utils/Error/ErrorPage';
 
 import './Home.scss';
 
+
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [searched, setSearched] = useState(false);
-  const { fetchHomeMeals, meals } = useContext(myContext);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const mealsPerPage = 20;
+  const {meals,loading,error} = useSelector((state) => state.meals);
+  const dispatch = useDispatch()
 
   const fetchMealsHandler = useCallback(() => {
-    fetchHomeMeals(searchTerm);
-    setCurrentPage(1);
-    setSearched(true);
-  }, [searchTerm, fetchHomeMeals]);
+    dispatch(fetchMeals(searchTerm));
+  },[dispatch,searchTerm])
+
+  //PageChange related
+  const [currentPage, setCurrentPage] = useState(1);
+  const mealsPerPage = 20;
 
   const indexOfLastMeal = currentPage * mealsPerPage;
   const indexOfFirstMeal = indexOfLastMeal - mealsPerPage;
@@ -25,6 +30,23 @@ const Home = () => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  if (loading) {
+    return (
+      <div className="loader-container">
+        <Loader />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <ErrorPage
+        errorMessage={`Error loading meals: ${error}`}
+        onRetryClick={() => fetchMealsHandler()}
+      />
+    );
+  }
 
   return (
     <div id="home-container" className="home">
@@ -48,7 +70,7 @@ const Home = () => {
             </div>
           ))
         ) : (
-          searched && <h2>No such meal was found</h2>
+           (searchTerm !=='' && loading)? null :  <h2>No such meal was found</h2>
         )}
       </div>
       {meals && meals.length > mealsPerPage && (
