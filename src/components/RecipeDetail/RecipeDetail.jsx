@@ -3,8 +3,7 @@ import { useSelector,useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import {fetchMealDetails} from '../../actions/index'
-import Loader from '../../utils/Loader/Loader';
-import ErrorPage from '../../utils/Error/ErrorPage';
+import { ErrorPage,Loader } from '../../utils';
 import './RecipeDetail.scss';
 
 const RecipeDetail = () => {
@@ -110,7 +109,7 @@ const RecipeDetail = () => {
                   allowfullscreen
                   src={embeddedUrl}
                   title="YouTube video player"
-                ></iframe>
+                />
             </div>
         </div>
     </div>

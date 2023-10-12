@@ -13,6 +13,10 @@ export const fetchMeals = (searchTerm) => {
                 type: actionTypes.FETCH_MEALS,
                 payload: res.data.meals,
             });
+            // dispatch({
+            //     type:actionTypes.FILTER_MEALS,
+            //     payload:res.data.meals,
+            // })
         })
         .catch((err) => {
             dispatch(errorMeals(err.message));
@@ -83,6 +87,10 @@ export const fetchIngredients = () => {
                 type:actionTypes.FETCH_INGREDIENTS,
                 payload:res.data.meals,
             });
+            dispatch({
+                type:actionTypes.FILTER_INGREDIENTS,
+                payload:res.data.meals,
+            })
         })
         .catch((err) => {
             dispatch(errorIngredients(err.message));
@@ -200,5 +208,23 @@ export const filterIngredients = (term,oldData) => {
             ingredient.strIngredient.toLowerCase().includes(term.toLowerCase())
             ),
         })
+        dispatch(searchTerm(term));
+    }
+}
+
+export const filterMeals = (term,oldData) => {
+    return dispatch=>{
+        if (!term){
+            dispatch({
+                type:actionTypes.FILTER_MEALS,
+                payload:oldData,
+            })
+        }dispatch({
+            type:actionTypes.FILTER_MEALS,
+            payload:oldData.filter((meal) =>
+            meal.strMeal.toLowerCase().includes(term.toLowerCase())
+            ),
+        })
+        dispatch(searchTerm(term));
     }
 }

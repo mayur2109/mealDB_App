@@ -1,9 +1,11 @@
-import { FETCH_INGREDIENTS,LOADING_INGREDIENTS,ERROR_INGREDIENTS, FILTER_INGREDIENTS } from "../actions/actionTypes";
+import { FETCH_INGREDIENTS,LOADING_INGREDIENTS,ERROR_INGREDIENTS, FILTER_INGREDIENTS,SEARCH_TERM } from "../actions/actionTypes";
 
 const initialState = {
     ingredients: [],
+    filteredIngredients:[],
     loading: false,
     error: null,
+    searchTerm:'',
 }
 
 const ingredientsReducer = (state = initialState, action) => {
@@ -14,7 +16,15 @@ const ingredientsReducer = (state = initialState, action) => {
                 ingredients: action.payload,
             }
         case FILTER_INGREDIENTS:
-            return
+            return{
+                ...state,
+                filteredIngredients:action.payload,
+            }
+        case SEARCH_TERM:
+                return{
+                    ...state,
+                    searchTerm:action.payload,
+                }
         case LOADING_INGREDIENTS:
             return {
                 ...state,

@@ -1,9 +1,11 @@
-import { FETCH_MEALS,LOADING_MEALS,ERROR_MEALS } from "../actions/actionTypes";
+import { FETCH_MEALS,LOADING_MEALS,ERROR_MEALS,SEARCH_TERM,FILTER_MEALS } from "../actions/actionTypes";
 
 const initialState = {
     meals: [],
+    filteredMeals:[],
     loading: false,
     error: null,
+    searchTerm:'',
 };
 
 const mealsReducer = (state = initialState, action) => {
@@ -12,6 +14,16 @@ const mealsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 meals: action.payload,
+            };
+        case FILTER_MEALS:
+            return{
+                ...state,
+                filteredMeals:action.payload,
+            };
+        case SEARCH_TERM:
+            return {
+                ...state,
+                searchTerm:action.payload,
             };
         case LOADING_MEALS:
             return {

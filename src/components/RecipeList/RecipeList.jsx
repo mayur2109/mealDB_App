@@ -3,8 +3,7 @@ import { Link,useParams } from 'react-router-dom';
 import { useSelector,useDispatch } from 'react-redux';
 
 import {fetchRecipesByIngredient} from '../../actions/index';
-import Loader from "../../utils/Loader/Loader"
-import ErrorPage from "../../utils/Error/ErrorPage"
+import { Card,Loader,ErrorPage } from '../../utils';
 
 import './RecipeList.scss';
 
@@ -28,24 +27,21 @@ const RecipeList = () => {
         errorMessage={`Error loading Recipes for ${ingredient}: ${error}`}
         onRetryClick={() => fetchRecipesByIngredient()}/>
       ) : (
-        <ul className="recipe-list-ul">
+        <div className="recipe-list-grid">
           {recipeData.map((recipe) => (
             <Link
               to={`/recipe/${recipe.idMeal}`}
               key={recipe.idMeal}
               className="custom-link"
             >
-              <li>
-                <img
-                  src={recipe.strMealThumb}
-                  alt={recipe.strMeal}
-                  className="recipe-list-image"
-                />
-                <h4 className="recipe-list-name">{recipe.strMeal}</h4>
-              </li>
+              <Card
+                key={recipe.idMeal}
+                image={recipe.strMealThumb}
+                name={recipe.strMeal}
+              />
             </Link>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );

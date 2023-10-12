@@ -2,37 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector,useDispatch } from 'react-redux';
 
-import { fetchIngredients } from '../../actions';
-import Loader from '../../utils/Loader/Loader';
-import ErrorPage from '../../utils/Error/ErrorPage';
+import { fetchIngredients,filterIngredients } from '../../actions';
+import { SearchInput,Pagination,Loader,ErrorPage } from '../../utils';
 
 import './Ingredients.scss';
 
 const IngredientSearchForm = () => {
   const dispatch = useDispatch()
 
-  const{ingredients,loading,error} = useSelector(state=>state.ingredients)
-
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filteredIngredients, setFilteredIngredients] = useState(ingredients);
-
-  const filterIngredients = (searchTerm) => {
-    if (!searchTerm) {
-      return ingredients;
-    }
-    return ingredients.filter((ingredient) =>
-      ingredient.strIngredient.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  };
+  const{ingredients,loading,error,filteredIngredients,searchTerm:search} = useSelector(state=>state.ingredients)
 
   const handleSearch = () => {
-    const filtered = filterIngredients(searchTerm);
-    setFilteredIngredients(filtered);
+    dispatch(filterIngredients(search,ingredients))
     setCurrentPage(1);
   };
 
   useEffect(() => {
     dispatch(fetchIngredients());
+    // return () => {
+    //   dispatch(searchTerm(''))
+    // }
   }, [dispatch]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -44,6 +33,11 @@ const IngredientSearchForm = () => {
     indexOfFirstIngredient,
     indexOfLastIngredient
   );
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   if (loading) {
     return (
@@ -65,15 +59,12 @@ const IngredientSearchForm = () => {
   return (
     <div className="ingredient-search">
       <h2>Ingredient Search</h2>
-      <div className="ingredient-search-search">
-        <input
-          type="text"
-          placeholder="Enter ingredient name"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button onClick={handleSearch}>Search</button>
-      </div>
+      <SearchInput
+        placeholder={"Enter ingredient name"}
+        value={search}
+        onChange={(e) => dispatch(filterIngredients(e.target.value,ingredients))}
+        onClick={handleSearch}
+      />
       <div className="ingredient-search-list">
         <ul>
           {currentIngredients.map((ingredient) => (
@@ -91,25 +82,9 @@ const IngredientSearchForm = () => {
         <Pagination
           currentPage={currentPage}
           totalPages={Math.ceil(filteredIngredients.length / ingredientsPerPage)}
-          onPageChange={(newPage) => setCurrentPage(newPage)}
+          onPageChange={handlePageChange}
         />
       )}
-    </div>
-  );
-};
-
-const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-  return (
-    <div className="pagination">
-      {Array.from({ length: totalPages }).map((_, index) => (
-        <button
-          key={index}
-          onClick={() => onPageChange(index + 1)}
-          className={currentPage === index + 1 ? 'active' : ''}
-        >
-          {index + 1}
-        </button>
-      ))}
     </div>
   );
 };

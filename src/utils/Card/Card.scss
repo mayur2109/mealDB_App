@@ -1,0 +1,30 @@
+.card{
+    width: 20rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    flex-wrap: wrap;
+    list-style: none;
+    word-wrap: break-word;
+    padding: 1rem;
+    img{
+        background-color: #f3b547;
+        overflow: auto;
+        width: 20rem;
+        height: 20rem;
+        margin: 0.4rem;
+        border: solid #ccc;
+        border-radius: 0.8rem;
+        transition: all 0.3s ease-in-out;
+        &:hover{
+            transform: scale(1.025);
+            cursor: pointer;
+        }
+    }
+    h4{
+        color:#f3b547;
+        font-size: 1.2rem;
+        margin: 0.4rem;
+    }
+}

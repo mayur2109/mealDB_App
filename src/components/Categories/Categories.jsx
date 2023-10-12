@@ -2,8 +2,7 @@ import React, { useEffect,/*useContext*/ } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 
 import { fetchCategories, } from '../../actions/index';
-import Loader from "../../utils/Loader/Loader"
-import ErrorPage from '../../utils/Error/ErrorPage';
+import { Card,Loader,ErrorPage } from '../../utils';
 
 import './Categories.scss';
 
@@ -37,12 +36,17 @@ const Categories = () => {
     <div className="categories">
       {categories.map((category) => {
         return (
-          <div className="categories-item" key={category.idCategory}>
-            <div className="categories-item-image">
-              <img src={category.strCategoryThumb} alt={category.strCategory} />
-            </div>
-            <div className="categories-item-name">{category.strCategory}</div>
-          </div>
+          // <div className="categories-item" key={category.idCategory}>
+          //   <div className="categories-item-image">
+          //     <img src={category.strCategoryThumb} alt={category.strCategory} />
+          //   </div>
+          //   <div className="categories-item-name">{category.strCategory}</div>
+          // </div>
+          <Card
+            key={category.idCategory}
+            image={category.strCategoryThumb}
+            name={category.strCategory}
+          />
         );
       })}
     </div>
