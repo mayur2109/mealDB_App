@@ -1,4 +1,4 @@
-import { FETCH_MEAL,LOADING_MEAL,ERROR_MEAL } from "../actions/actionTypes";
+import { FETCH_MEAL,LOADING_MEAL,ERROR_MEAL,CLEAR_MEAL_DETAILS } from "../actions/actionTypes";
 
 const initialState={
     mealData:[],
@@ -17,6 +17,11 @@ const MealDetailsReducer = (state=initialState,action) => {
             return {
                 ...state,
                 loading:action.payload,
+            }
+        case CLEAR_MEAL_DETAILS:
+            return{
+                ...state,
+                mealData:[],
             }
         case ERROR_MEAL:
             return {

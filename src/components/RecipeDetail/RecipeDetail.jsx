@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import {CLEAR_MEAL_DETAILS} from '../../actions/actionTypes';
 import {fetchMealDetails} from '../../actions/index'
 import { ErrorPage,Loader } from '../../utils';
 import './RecipeDetail.scss';
@@ -13,6 +14,9 @@ const RecipeDetail = () => {
 
   useEffect(() => {
     dispatch(fetchMealDetails(recipeId));
+    return()=>{
+      dispatch({type:CLEAR_MEAL_DETAILS})
+    }
   }, [dispatch,recipeId]);
 
 
